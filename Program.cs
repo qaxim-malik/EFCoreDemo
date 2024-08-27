@@ -14,6 +14,10 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<EFCoreDemoContext>(
 p => p.UseNpgsql(builder.Configuration.GetConnectionString("EFCoreDemoConnnection")));
 
+
+builder.Services.AddDbContext<EFCoreDemoContextAdvance>(
+p => p.UseNpgsql(builder.Configuration.GetConnectionString("EFCoreDemoConnnection")));
+
 builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
 
 var app = builder.Build();

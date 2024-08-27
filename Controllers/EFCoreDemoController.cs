@@ -3,7 +3,6 @@ using AutoMapper.QueryableExtensions;
 using EFCoreDemo.Domain.Context;
 using EFCoreDemo.Domain.Entities.SimpleEntities;
 using EFCoreDemo.Dto;
-using EFCoreDemo.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
