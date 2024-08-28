@@ -43,7 +43,7 @@ public class EFCoreDemoController : ControllerBase
         }
         else
         {
-            return BadRequest();
+            return BadRequest("There was an error");
         }
     }
 
@@ -66,7 +66,7 @@ public class EFCoreDemoController : ControllerBase
         }
         else
         {
-            return BadRequest();
+            return BadRequest("There was an error");
         }
     }
 
@@ -242,7 +242,7 @@ public class EFCoreDemoController : ControllerBase
         }
         else
         {
-            return BadRequest();
+            return BadRequest("There was an error");
         }
     }
 
@@ -263,7 +263,7 @@ public class EFCoreDemoController : ControllerBase
         }
         else
         {
-            return BadRequest();
+            return BadRequest("There was an error");
         }
     }
 }
