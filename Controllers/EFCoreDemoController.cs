@@ -121,7 +121,7 @@ public class EFCoreDemoController : ControllerBase
         }
         else
         {
-            return NotFound();
+            return NotFound("No Data Found");
         }
     }
 
@@ -139,7 +139,7 @@ public class EFCoreDemoController : ControllerBase
         }
         else
         {
-            return NotFound();
+            return NotFound("No Data Found");
         }
     }
 
@@ -209,6 +209,24 @@ public class EFCoreDemoController : ControllerBase
         //}
 
         return true;
+    }
+
+    [HttpPost(nameof(GetAllAuthorsAndBooksUsingProjection))]
+    public async Task<ActionResult<IEnumerable<GetAuthorDto>>> GetAllAuthorsAndBooksUsingProjection()
+    {
+        var authorsAndBooksFromDb = await _dbContextAdvance.Author.AsNoTracking()
+                                                     .Include(x => x.Books)
+                                                     .ProjectTo<GetAuthorDto>(_mapper.ConfigurationProvider)
+                                                     .ToListAsync();
+
+        if (authorsAndBooksFromDb.Count > 0)
+        {
+            return Ok(authorsAndBooksFromDb);
+        }
+        else
+        {
+            return NotFound("No Data Found");
+        }
     }
 
     [HttpPost(nameof(BulkUpdateBooks))]

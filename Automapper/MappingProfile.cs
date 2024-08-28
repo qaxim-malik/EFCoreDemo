@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using EFCoreDemo.Domain.Entities.AdvanceEntities;
 using EFCoreDemo.Domain.Entities.SimpleEntities;
 using EFCoreDemo.Dto;
 
@@ -10,5 +11,8 @@ public class MappingProfile : Profile
     {
         CreateMap<Teacher, GetTeacherWithStudentsDto>();
         CreateMap<Student, GetStudentsDto>();
+
+        CreateMap<Author, GetAuthorDto>();
+        CreateMap<Book, GetBookDto>();
     }
 }
