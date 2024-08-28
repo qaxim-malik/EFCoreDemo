@@ -70,6 +70,24 @@ public class EFCoreDemoController : ControllerBase
         }
     }
 
+    [HttpPost(nameof(UpdateStudent))]
+    public async Task<ActionResult<bool>> UpdateStudent(UpdateStudentDto updateStudentDto)
+    {
+        var studentToUpdate = await _dbContext.Student.AsTracking().FirstOrDefaultAsync(x => x.Id.Equals(updateStudentDto.Id));
+
+        if (studentToUpdate != null)
+        {
+            studentToUpdate.StudentName = updateStudentDto.StudentName;
+            studentToUpdate.Email = updateStudentDto.Email;
+            await _dbContext.SaveChangesAsync();
+            return Ok(true);
+        }
+        else
+        {
+            return NotFound("No Data Found");
+        }
+    }
+
     [HttpPost(nameof(GetAllTeacherWithStudents))]
     public async Task<ActionResult<IEnumerable<GetTeacherWithStudentsDto>>> GetAllTeacherWithStudents()
     {
@@ -101,7 +119,8 @@ public class EFCoreDemoController : ControllerBase
                     _studentsList.Add(new GetStudentsDto
                     {
                         Id = student.Id,
-                        StudentName = student.StudentName
+                        StudentName = student.StudentName,
+                        Email = student.Email,
                     });
                 }
             }
