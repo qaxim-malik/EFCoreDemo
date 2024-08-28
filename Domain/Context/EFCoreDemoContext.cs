@@ -12,4 +12,5 @@ public class EFCoreDemoContext : DbContext
 
     public DbSet<Teacher> Teacher { get; set; }
     public DbSet<Student> Student { get; set; }
+    public DbSet<Product> Products { get; set; }
 }

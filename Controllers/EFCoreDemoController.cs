@@ -53,6 +53,7 @@ public class EFCoreDemoController : ControllerBase
         var studentEntity = new Student
         {
             StudentName = student.StudentName,
+            Email = student.Email,
             TeacherId = student.TeacherId,
             CreatedAt = DateTime.UtcNow,
             CreatedBy = "Admin"
