@@ -9,7 +9,7 @@ public class Student : BaseEntity
     //[Key]
     public int Id { get; set; }
 
-    [Column("Student_Name", TypeName = "nvarchar(50)")]
+    [Column("Student_Name", TypeName = "varchar(50)")]
     public string StudentName { get; set; } = null!;
 
     public string? Email { get; set; }

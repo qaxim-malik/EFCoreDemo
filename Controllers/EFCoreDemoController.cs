@@ -73,6 +73,18 @@ public class EFCoreDemoController : ControllerBase
     [HttpPost(nameof(GetAllTeacherWithStudents))]
     public async Task<ActionResult<IEnumerable<GetTeacherWithStudentsDto>>> GetAllTeacherWithStudents()
     {
+        //int pageNumber = 0;
+        //int pageSize = 10;
+
+        //int skip = pageSize * pageNumber;
+        //int take = pageSize;
+
+        //var teachersFromDb = await _dbContext.Teacher.AsNoTracking()
+        //                                             .Include(x => x.Students)
+        //                                             .Skip(skip)
+        //                                             .Take(take)
+        //                                             .ToListAsync();
+
         var teachersFromDb = await _dbContext.Teacher.AsNoTracking()
                                                      .Include(x => x.Students)
                                                      .ToListAsync();

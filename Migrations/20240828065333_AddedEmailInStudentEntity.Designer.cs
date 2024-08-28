@@ -3,6 +3,7 @@ using System;
 using EFCoreDemo.Domain.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EFCoreDemo.Migrations
 {
     [DbContext(typeof(EFCoreDemoContext))]
-    partial class EFCoreDemoContextModelSnapshot : ModelSnapshot
+    [Migration("20240828065333_AddedEmailInStudentEntity")]
+    partial class AddedEmailInStudentEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
