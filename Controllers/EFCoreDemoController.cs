@@ -1,6 +1,7 @@
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using EFCoreDemo.Domain.Context;
+using EFCoreDemo.Domain.Entities.AdvanceEntities;
 using EFCoreDemo.Domain.Entities.SimpleEntities;
 using EFCoreDemo.Dto;
 using Microsoft.AspNetCore.Mvc;
@@ -13,13 +14,16 @@ namespace EFCoreDemo.Controllers;
 public class EFCoreDemoController : ControllerBase
 {
     private readonly EFCoreDemoContext _dbContext;
+    private readonly EFCoreDemoContextAdvance _dbContextAdvance;
     private readonly IMapper _mapper;
 
     public EFCoreDemoController(EFCoreDemoContext dbContext,
-                                IMapper mapper)
+                                IMapper mapper,
+                                EFCoreDemoContextAdvance dbContextAdvance)
     {
         _dbContext = dbContext;
         _mapper = mapper;
+        _dbContextAdvance = dbContextAdvance;
     }
 
     [HttpPost(nameof(CreateTeacher))]
@@ -125,5 +129,73 @@ public class EFCoreDemoController : ControllerBase
         {
             return NotFound();
         }
+    }
+
+    [HttpPost(nameof(CreateAuthorAndBookUsingTransaction))]
+    public async Task<ActionResult<bool>> CreateAuthorAndBookUsingTransaction()
+    {
+        var authorWithBook = new Author
+        {
+            AuthorName = "Jane Austen",
+            Books = new List<Book>
+            {
+                new Book
+                {
+                    BookName = "Pride and Prejudice",
+                    Reviews = new List<Review>
+                    {
+                        new Review
+                        {
+                            ReviewTitle = "5 star Rated",
+                            ReviewDescription = "This book has 5 star rating overall"
+                        }
+                    }
+                }
+            }
+        };
+
+        var bookWithAuthor = new Book
+        {
+            BookName = "The Kite Runner",
+            Reviews = new List<Review>
+            {
+                new Review
+                {
+                   ReviewTitle = "5 star Rated",
+                   ReviewDescription = "This book has 5 star rating overall"
+                }
+            },
+            Authors = new List<Author>
+            {
+                new Author
+                {
+                    AuthorName = "Khaled Hosseini"
+                }
+            }
+        };
+
+        using var transaction = await _dbContextAdvance.Database.BeginTransactionAsync();
+        await _dbContextAdvance.Author.AddAsync(authorWithBook);
+        await _dbContextAdvance.SaveChangesAsync();
+
+        await _dbContextAdvance.Book.AddAsync(bookWithAuthor);
+        await _dbContextAdvance.SaveChangesAsync();
+
+        await transaction.CommitAsync();
+
+        //using (var transaction = new TransactionScope(
+        //   TransactionScopeOption.Required,
+        //   new TransactionOptions { IsolationLevel = IsolationLevel.ReadCommitted }))
+        //{
+        //    await _dbContextAdvance.Author.AddAsync(authorWithBook);
+        //    await _dbContextAdvance.SaveChangesAsync();
+
+        //    await _dbContextAdvance.Book.AddAsync(bookWithAuthor);
+        //    await _dbContextAdvance.SaveChangesAsync();
+
+        //    transaction.Complete();
+        //}
+
+        return true;
     }
 }
