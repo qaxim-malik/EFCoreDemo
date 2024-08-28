@@ -216,6 +216,7 @@ public class EFCoreDemoController : ControllerBase
     {
         var authorsAndBooksFromDb = await _dbContextAdvance.Author.AsNoTracking()
                                                      .Include(x => x.Books)
+                                                     .OrderBy(x => x.CreatedAt)
                                                      .ProjectTo<GetAuthorDto>(_mapper.ConfigurationProvider)
                                                      .ToListAsync();
 
