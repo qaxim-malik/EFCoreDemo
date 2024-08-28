@@ -14,7 +14,6 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<EFCoreDemoContext>(
 p => p.UseNpgsql(builder.Configuration.GetConnectionString("EFCoreDemoConnnection")));
 
-
 builder.Services.AddDbContext<EFCoreDemoContextAdvance>(
 p => p.UseNpgsql(builder.Configuration.GetConnectionString("EFCoreDemoConnnection")));
 
@@ -22,11 +21,14 @@ builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
 
 var app = builder.Build();
 
-using (var scope = app.Services.CreateScope())
-{
-    var dbContext = scope.ServiceProvider.GetRequiredService<EFCoreDemoContext>();
-    dbContext.Database.Migrate();
-}
+//using (var scope = app.Services.CreateScope())
+//{
+//    var dbContext = scope.ServiceProvider.GetRequiredService<EFCoreDemoContext>();
+//    await dbContext.Database.MigrateAsync();
+
+//    var dbContextAdvance = scope.ServiceProvider.GetRequiredService<EFCoreDemoContextAdvance>();
+//    await dbContextAdvance.Database.MigrateAsync();
+//}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
