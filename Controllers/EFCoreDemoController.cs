@@ -39,7 +39,7 @@ public class EFCoreDemoController : ControllerBase
         var result = await _dbContext.SaveChangesAsync();
         if (result > 0)
         {
-            return teacherEntity.Id;
+            return Ok(teacherEntity.Id);
         }
         else
         {
@@ -61,7 +61,7 @@ public class EFCoreDemoController : ControllerBase
         var result = await _dbContext.SaveChangesAsync();
         if (result > 0)
         {
-            return studentEntity.Id;
+            return Ok(studentEntity.Id);
         }
         else
         {
@@ -104,7 +104,7 @@ public class EFCoreDemoController : ControllerBase
 
         if (teacherWithStudents.Count > 0)
         {
-            return teacherWithStudents;
+            return Ok(teacherWithStudents);
         }
         else
         {
@@ -122,7 +122,7 @@ public class EFCoreDemoController : ControllerBase
 
         if (teachersFromDb.Count > 0)
         {
-            return teachersFromDb;
+            return Ok(teachersFromDb);
         }
         else
         {
@@ -196,5 +196,42 @@ public class EFCoreDemoController : ControllerBase
         //}
 
         return true;
+    }
+
+    [HttpPost(nameof(BulkUpdateBooks))]
+    public async Task<ActionResult<bool>> BulkUpdateBooks()
+    {
+        var result = await _dbContextAdvance.Book
+                               .Where(x => !x.IsDeleted)
+                               .ExecuteUpdateAsync(x => x.SetProperty(prop => prop.ModifiedBy, prop => "Admin"));
+        if (result > 0)
+        {
+            return Ok(true);
+        }
+        else
+        {
+            return BadRequest();
+        }
+    }
+
+    [HttpPost(nameof(BulkDeleteAuthorAndBooks))]
+    public async Task<ActionResult<bool>> BulkDeleteAuthorAndBooks()
+    {
+        var authorResult = await _dbContextAdvance.Book
+                               .Where(x => !x.IsDeleted)
+                               .ExecuteDeleteAsync();
+
+        var bookResult = await _dbContextAdvance.Author
+                               .Where(x => !x.IsDeleted)
+                               .ExecuteDeleteAsync();
+
+        if (authorResult > 0 && bookResult > 0)
+        {
+            return Ok(true);
+        }
+        else
+        {
+            return BadRequest();
+        }
     }
 }
