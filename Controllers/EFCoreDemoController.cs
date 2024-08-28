@@ -249,11 +249,11 @@ public class EFCoreDemoController : ControllerBase
     [HttpPost(nameof(BulkDeleteAuthorAndBooks))]
     public async Task<ActionResult<bool>> BulkDeleteAuthorAndBooks()
     {
-        var authorResult = await _dbContextAdvance.Book
+        var authorResult = await _dbContextAdvance.Author
                                .Where(x => !x.IsDeleted)
                                .ExecuteDeleteAsync();
 
-        var bookResult = await _dbContextAdvance.Author
+        var bookResult = await _dbContextAdvance.Book
                                .Where(x => !x.IsDeleted)
                                .ExecuteDeleteAsync();
 
